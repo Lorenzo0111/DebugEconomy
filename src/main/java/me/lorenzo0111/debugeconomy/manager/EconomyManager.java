@@ -3,6 +3,7 @@ package me.lorenzo0111.debugeconomy.manager;
 import me.lorenzo0111.debugeconomy.DebugEconomy;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.util.ArrayList;
@@ -72,63 +73,71 @@ public class EconomyManager implements Economy {
 
     @Override
     public double getBalance(String playerName) {
-        return Integer.MAX_VALUE;
+        return getBalance(Bukkit.getOfflinePlayer(playerName));
     }
 
     @Override
     public double getBalance(OfflinePlayer player) {
-        return Integer.MAX_VALUE;
+        return plugin.getNoMoney().contains(player.getUniqueId()) ? 0.0 : Integer.MAX_VALUE;
     }
 
     @Override
     public double getBalance(String playerName, String world) {
-        return Integer.MAX_VALUE;
+        return getBalance(Bukkit.getOfflinePlayer(playerName));
     }
 
     @Override
     public double getBalance(OfflinePlayer player, String world) {
-        return Integer.MAX_VALUE;
+        return getBalance(player);
     }
 
     @Override
     public boolean has(String playerName, double amount) {
-        return true;
+        return getBalance(playerName) > 1;
     }
 
     @Override
     public boolean has(OfflinePlayer player, double amount) {
-        return true;
+        return getBalance(player) > 1;
     }
 
     @Override
     public boolean has(String playerName, String worldName, double amount) {
-        return true;
+        return getBalance(playerName) > 1;
     }
 
     @Override
     public boolean has(OfflinePlayer player, String worldName, double amount) {
-        return true;
+        return getBalance(player) > 1;
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
+        return has(playerName,amount) ?
+                new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null)
+                : new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.FAILURE, null);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
+        return has(player,amount) ?
+                new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null)
+                : new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.FAILURE, null);
 
     }
 
     @Override
     public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null);
+        return has(playerName,amount) ?
+                new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.SUCCESS, null)
+                : new EconomyResponse(amount, getBalance(playerName), EconomyResponse.ResponseType.FAILURE, null);
     }
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
-        return new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null);
+        return has(player,amount) ?
+                new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.SUCCESS, null)
+                : new EconomyResponse(amount, getBalance(player), EconomyResponse.ResponseType.FAILURE, null);
     }
 
     @Override
