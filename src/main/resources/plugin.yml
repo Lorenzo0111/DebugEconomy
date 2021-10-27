@@ -1,0 +1,6 @@
+name: DebugEconomy
+version: '${version}'
+main: me.lorenzo0111.debugeconomy.DebugEconomy
+api-version: 1.13
+depend: [Vault]
+authors: [Lorenzo0111]
