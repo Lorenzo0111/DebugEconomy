@@ -2,6 +2,7 @@ package me.lorenzo0111.debugeconomy;
 
 import me.lorenzo0111.debugeconomy.command.DebugEconomyCommand;
 import me.lorenzo0111.debugeconomy.manager.EconomyManager;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,7 +29,7 @@ public final class DebugEconomy extends JavaPlugin {
             } catch (IOException ignored) {}
         }
 
-        Bukkit.getServicesManager().register(EconomyManager.class,new EconomyManager(this), this, ServicePriority.Low);
+        Bukkit.getServicesManager().register(Economy.class,new EconomyManager(this), this, ServicePriority.Low);
         this.getLogger().info("Hooked with Vault.");
 
         Objects.requireNonNull(this.getCommand("debugeconomy")).setExecutor(new DebugEconomyCommand(this));
